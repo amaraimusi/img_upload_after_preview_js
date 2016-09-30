@@ -20,7 +20,13 @@
 	<script src="img_upload_after_preview.js"></script>
 	
 
-
+	<script>
+	$(function(){
+		var imgUpload = new ImgUploadAfterPreview();
+		imgUpload.setFileElm('#file1','upload.php');
+	})
+	
+	</script>
 </head>
 <body>
 <div id="header" ><h1>Img upload after preview</h1></div>
@@ -40,11 +46,8 @@
 
 <h2>サンプル</h2>
 	<input id="file1" type="file" name="file1" multiple /><br>
-	<img  id="img1"  />
-	<input type="button" value="TEST1" onclick="test1()"/>
-	
+
 	<hr>
-	<p>res</p>
 	<div id="res"></div>
 <br>
 
