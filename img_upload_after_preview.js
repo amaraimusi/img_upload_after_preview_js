@@ -211,12 +211,10 @@ var ImgUploadAfterPreview =function(option){
 		var u_btn = $('#' + u_btn_xid);
 		u_btn.hide();
 		
-		// Display the waiting message.
-		var msg_elm = $('#' + myself.activeParam.msg_xid);
-		msg_elm.html(myself.option.loading_message);
-		msg_elm.show();
-		
-	
+		// Show the waiting message.
+		showMessage(myself.option.loading_message);
+
+
 		var reader = new FileReader();
 		reader.readAsDataURL(oFile);
 	
@@ -237,18 +235,45 @@ var ImgUploadAfterPreview =function(option){
 				contentType : false,
 				success: function(res, type) {
 					
-					msg_elm.html(myself.option.success_message);
+					// Show the success message.
+					showMessage(myself.option.success_message);
 
 				},
 				error: function(xmlHttpRequest, textStatus, errorThrown){
 					console.log(xmlHttpRequest.responseText);
 					
-					alert(textStatus);
+					// Show the failed message.
+					var errMsg = "Upload failed.<br>" + xmlHttpRequest.responseText;
+					showMessage(errMsg,'text-danger');
+					
 				}
 	
 			});
 		}
 	};
+	
+	
+	/**
+	 * Show the message.
+	 * @param msg : Message string.
+	 * @param class_attr : CSS Class attribute.
+	 */
+	function showMessage(msg,class_attr){
+		
+		if(class_attr==undefined){
+			class_attr = 'text-success';
+		}
+		class_attr = 'msg_iuapj ' + class_attr;
+		
+		var msg_elm = $('#' + myself.activeParam.msg_xid);
+		
+		msg_elm.html(msg);
+		msg_elm.attr('class',class_attr);
+		msg_elm.show();
+
+	}
+	
+	
 	
 	
 	
