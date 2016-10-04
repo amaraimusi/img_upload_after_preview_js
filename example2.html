@@ -5,7 +5,7 @@
 	<meta name="google" content="notranslate" />
    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
    	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Img upload after preview | example1</title>
+	<title>Img upload after preview | example2</title>
 	
 	<link href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +14,8 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+	<script src="example/livipage.js"></script>
+	<script src="example/ImgCompactK.js"></script>
 	
 	<script src="img_upload_after_preview.js"></script>
 	
@@ -22,12 +23,16 @@
 	<script>
 	$(function(){
 		var imgUpload = new ImgUploadAfterPreview();
-		imgUpload.setFileElm('#file1','upload.php');
+		var animal = {'animal':'cat'};
+		
+		imgUpload.setFileElm('#file1','upload2.php',animal);
+		
 	});
+	
 	</script>
 </head>
 <body>
-<div id="header" ><h1>Img upload after preview | example1</h1></div>
+<div id="header" ><h1>Img upload after preview | example2</h1></div>
 <div class="container">
 
 

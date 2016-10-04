@@ -5,7 +5,7 @@
 	<meta name="google" content="notranslate" />
    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
    	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Img upload after preview | example1</title>
+	<title>Img upload after preview | example3</title>
 	
 	<link href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -22,12 +22,24 @@
 	<script>
 	$(function(){
 		var imgUpload = new ImgUploadAfterPreview();
-		imgUpload.setFileElm('#file1','upload.php');
+		var animal = {'animal':'cat'};
+		
+		imgUpload.setFileElm('#file1','upload2.php',animal,null,after_func);
+		
 	});
+	
+	// This Callback function to execute after uploading.
+	function after_func(res){
+
+		var data = JSON.parse(res);//JSONパース（JSONデコード）
+		$('#res').html('animal :' + data.animal + '<br>' +
+				'file name : ' + data.file_name );
+	}
+	
 	</script>
 </head>
 <body>
-<div id="header" ><h1>Img upload after preview | example1</h1></div>
+<div id="header" ><h1>Img upload after preview | example3</h1></div>
 <div class="container">
 
 
@@ -66,6 +78,6 @@
 <div class="yohaku"></div>
 <a href="https://github.com/amaraimusi/img_upload_after_preview_js" target='blank'>GitHub</a>
 </div><!-- content -->
-<div id="footer">(C) <a href="http://amaraimusi.sakura.ne.jp/" target="blank">kenji uehara</a> 2016-9-27</div>
+<div id="footer">(C) <a href="http://amaraimusi.sakura.ne.jp/" target="blank">kenji uehara</a> 2016-10-4</div>
 </body>
 </html>

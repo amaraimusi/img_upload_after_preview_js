@@ -92,9 +92,11 @@ var ImgUploadAfterPreview =function(option){
 	 * To set this function to a file element.
 	 * @param fileElmId.   File element.
 	 * @param server_url.  Server url for file upload.
-	 * @param acc_data.   Accessories data.(Optional)
+	 * @param acc_data(Optional).   Accessories data.
+	 * @param beforeUploadCallback.   This Callback function to execute before uploading.
+	 * @param afterUploadCallback.   This Callback function to execute after uploading.
 	 */
-	this.setFileElm = function(fileElmId,server_url,acc_data){
+	this.setFileElm = function(fileElmId,server_url,acc_data,beforeUploadCallback,afterUploadCallback){
 
 		var res = classifySlt(fileElmId);
 		var xid = res.xid; // Id of element.
@@ -185,7 +187,7 @@ var ImgUploadAfterPreview =function(option){
 				
 				// Add a click event to a upload button.
 				u_btn_elm.click(function(){
-					clickUploadButton(xid,acc_data);
+					clickUploadButton(xid,acc_data,beforeUploadCallback,afterUploadCallback);
 				});				
 	
 			}
@@ -201,7 +203,7 @@ var ImgUploadAfterPreview =function(option){
 	
 	
 	
-	function clickUploadButton(xid,acc_data){
+	function clickUploadButton(xid,acc_data,beforeUploadCallback,afterUploadCallback){
 
 		var fileEvt = myself.fileEvtList[xid];
 		var files = fileEvt.target.files;
@@ -211,6 +213,15 @@ var ImgUploadAfterPreview =function(option){
 		var u_btn_xid = myself.upBtnList[xid];
 		var u_btn = $('#' + u_btn_xid);
 		u_btn.hide();
+
+		
+		// Execute a callback function before upload.
+		if(beforeUploadCallback != null){
+			var res = beforeUploadCallback(xid,acc_data);
+			if(res){
+				acc_data = res;
+			}
+		}
 		
 		// If acc_data is an object ,To convert the acc_data into JSON.
 		if(acc_data != null){
@@ -248,7 +259,11 @@ var ImgUploadAfterPreview =function(option){
 				contentType : false,
 				success: function(res, type) {
 					
-					console.log(res);//■■■□□□■■■□□□■■■□□□)
+			
+					// Execute a callback function after upload.
+					if(afterUploadCallback != null){
+						afterUploadCallback(res);
+					}
 					
 					// Show the success message.
 					showMessage(myself.option.success_message);
