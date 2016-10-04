@@ -23,7 +23,9 @@
 	<script>
 	$(function(){
 		var imgUpload = new ImgUploadAfterPreview();
-		imgUpload.setFileElm('#file1','upload.php');
+		var animal = {'animal':'cat'};
+		
+		imgUpload.setFileElm('#file1','upload.php',animal);
 	});
 	
 	</script>

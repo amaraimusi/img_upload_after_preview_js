@@ -92,8 +92,9 @@ var ImgUploadAfterPreview =function(option){
 	 * To set this function to a file element.
 	 * @param fileElmId.   File element.
 	 * @param server_url.  Server url for file upload.
+	 * @param acc_data.   Accessories data.(Optional)
 	 */
-	this.setFileElm = function(fileElmId,server_url){
+	this.setFileElm = function(fileElmId,server_url,acc_data){
 
 		var res = classifySlt(fileElmId);
 		var xid = res.xid; // Id of element.
@@ -184,7 +185,7 @@ var ImgUploadAfterPreview =function(option){
 				
 				// Add a click event to a upload button.
 				u_btn_elm.click(function(){
-					clickUploadButton(xid);
+					clickUploadButton(xid,acc_data);
 				});				
 	
 			}
@@ -200,7 +201,7 @@ var ImgUploadAfterPreview =function(option){
 	
 	
 	
-	function clickUploadButton(xid){
+	function clickUploadButton(xid,acc_data){
 
 		var fileEvt = myself.fileEvtList[xid];
 		var files = fileEvt.target.files;
@@ -210,6 +211,14 @@ var ImgUploadAfterPreview =function(option){
 		var u_btn_xid = myself.upBtnList[xid];
 		var u_btn = $('#' + u_btn_xid);
 		u_btn.hide();
+		
+		// If acc_data is an object ,To convert the acc_data into JSON.
+		if(acc_data != null){
+			if(typeof acc_data == 'object'){
+				acc_data = JSON.stringify(acc_data);
+			}
+		}
+		
 		
 		// Show the waiting message.
 		showMessage(myself.option.loading_message);
@@ -224,6 +233,10 @@ var ImgUploadAfterPreview =function(option){
 		
 		    var fd = new FormData();
 		    fd.append( myself.option.upload_form_name, $('#' + xid).prop("files")[0] );
+		    
+		    if(acc_data != null){
+			    fd.append( 'acc_data', acc_data );
+		    }
 			
 			$.ajax({
 				type: "POST",
@@ -234,6 +247,8 @@ var ImgUploadAfterPreview =function(option){
 				processData : false,
 				contentType : false,
 				success: function(res, type) {
+					
+					console.log(res);//■■■□□□■■■□□□■■■□□□)
 					
 					// Show the success message.
 					showMessage(myself.option.success_message);
