@@ -9,8 +9,8 @@
 /**
  * Img upload  after  the thumbnail display.
  * 
- * @version 1.0
- * @date 2016-9-30
+ * @version 1.1
+ * @date 2016-9-30 | 2016-10-5
  * 
  * @param option
  * - upload_button_name.
@@ -28,8 +28,6 @@ var ImgUploadAfterPreview =function(option){
 	this.option = option;
 	
 	this.fileEvtList = {}; // file event list.
-	this.imgIdList = {}; // The image element id list.
-	this.upBtnList = {}; // The uplaod button id list.
 	this.activeParam = {}; // Activated parameter for callback.
 	this.server_url = 'sample.php'; // Server url for file upload.
 	
@@ -125,15 +123,15 @@ var ImgUploadAfterPreview =function(option){
 				var preview_img_html = "<div class='upload_img_iuapj'><img id='" + img_xid +"'/></div>";
 				fileElm.after(preview_img_html);
 			}
-			myself.imgIdList[xid] = img_xid;
-			
+
 
 
 		
 			
 			
-			
-			myself.fileEvtList[xid] = e;// Keep for file transmission event
+			// ■■■□□□■■■□□□■■■□□□
+			//myself.fileEvtList[xid] = e;// Keep for file transmission event
+			myself.activeParam['file_evt'] = e;// Keep for file transmission event
 				
 			// Get a file object from event.
 			var files = e.target.files;
@@ -180,7 +178,7 @@ var ImgUploadAfterPreview =function(option){
 					u_btn_elm = $('#' + u_btn_xid);
 				}
 				u_btn_elm.show();
-				myself.upBtnList[xid] = u_btn_xid;
+				myself.activeParam['u_btn_xid'] = u_btn_xid;
 				
 				
 				
@@ -205,12 +203,12 @@ var ImgUploadAfterPreview =function(option){
 	
 	function clickUploadButton(xid,acc_data,beforeUploadCallback,afterUploadCallback){
 
-		var fileEvt = myself.fileEvtList[xid];
+		var fileEvt = myself.activeParam['file_evt'];
 		var files = fileEvt.target.files;
 		var oFile = files[0];
 		
 		// Hide upload button.
-		var u_btn_xid = myself.upBtnList[xid];
+		var u_btn_xid = myself.activeParam['u_btn_xid'];
 		var u_btn = $('#' + u_btn_xid);
 		u_btn.hide();
 
