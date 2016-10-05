@@ -119,23 +119,23 @@ var ImgUploadAfterPreview =function(option){
 			
 			// Add a Image element for preview.
 			var img_xid = xid + '_preview_img';
-			if(!$('#' + img_xid)[0]){
+			var imgElm = $('#' + img_xid);
+			if(!imgElm[0]){
 				var preview_img_html = "<div class='upload_img_iuapj'><img id='" + img_xid +"'/></div>";
 				fileElm.after(preview_img_html);
+			}else{
+				imgElm.show();
 			}
 
-
-
-		
-			
-			
-			// ■■■□□□■■■□□□■■■□□□
-			//myself.fileEvtList[xid] = e;// Keep for file transmission event
 			myself.activeParam['file_evt'] = e;// Keep for file transmission event
 				
 			// Get a file object from event.
 			var files = e.target.files;
 			var oFile = files[0];
+			
+			if(oFile==null){
+				return;
+			}
 	
 			// Converting from a file object to a data url scheme.Conversion process by the asynchronous.
 			var reader = new FileReader();
@@ -198,6 +198,35 @@ var ImgUploadAfterPreview =function(option){
 		
 	};
 
+	/**
+	 * Reset the preview stage.
+	 */
+	this.reset = function(){
+		if(this.activeParam==null || Object.keys(this.activeParam).length === 0){
+			console.log('empty');
+			return;
+		}
+		
+		
+		// Reset a file element.
+		var fileElm = $('#' + this.activeParam.xid);
+		try {
+			fileElm.val("");
+		} catch (e) {
+			console.log('It can not be reset in IE ');
+		}
+		
+		// Reset a thubnail preview.
+		var imgElm = $('#' + this.activeParam.img_xid);
+		imgElm.attr('src','');
+		imgElm.hide();
+	
+		// Hide a upload button and a message element.
+		$('#' + this.activeParam.u_btn_xid).hide();
+		$('#' + this.activeParam.msg_xid).hide();
+		
+		
+	};
 	
 	
 	
