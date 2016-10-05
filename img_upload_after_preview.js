@@ -9,7 +9,7 @@
 /**
  * Img upload  after  the thumbnail display.
  * 
- * @version 1.1
+ * @version 1.1.2
  * @date 2016-9-30 | 2016-10-5
  * 
  * @param option
@@ -165,19 +165,22 @@ var ImgUploadAfterPreview =function(option){
 				var xid = myself.activeParam.xid;
 				var u_btn_xid = xid + '_upload_button';
 				var u_btn_style = '';
-				if(myself.option.upload_button_display == 0){
-					u_btn_style = "display:none";
-				}
 				var u_btn_elm = $('#' + u_btn_xid);
 				if(!u_btn_elm[0]){
 					var u_btn_html = "<div class='upload_btn_iuapj'><button type='button' id='" + u_btn_xid +"' " +
-						"class='"+ myself.option.upload_button_css + "' " +
-						"style='" + u_btn_style + "'>"+ myself.option.upload_button_name + "</button></div>";
+						"class='"+ myself.option.upload_button_css + "' >"+ 
+						myself.option.upload_button_name + "</button></div>";
 					
 					imgElm.after(u_btn_html);
 					u_btn_elm = $('#' + u_btn_xid);
 				}
-				u_btn_elm.show();
+
+				if(myself.option.upload_button_display == 1){
+					u_btn_elm.show();
+				}else{
+					u_btn_elm.hide();
+				}
+				
 				myself.activeParam['u_btn_xid'] = u_btn_xid;
 				
 				
@@ -227,6 +230,27 @@ var ImgUploadAfterPreview =function(option){
 		
 		
 	};
+	
+	
+	/**
+	 * Upload at any timing after preview.
+	 * @param acc_data(Optional).   Accessories data.
+	 * @param beforeUploadCallback.   This Callback function to execute before uploading.
+	 * @param afterUploadCallback.   This Callback function to execute after uploading.
+	 */
+	this.upload = function(acc_data,beforeUploadCallback,afterUploadCallback){
+		
+		if(this.activeParam==null || Object.keys(this.activeParam).length === 0){
+			console.log('Please show preview.');
+			return;
+		}
+		
+		xid = myself.activeParam.xid;
+		
+		clickUploadButton(xid,acc_data,beforeUploadCallback,afterUploadCallback);
+	}
+	
+	
 	
 	
 	
